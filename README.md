@@ -35,8 +35,8 @@ Tests cover:
 AI responses must be relevant, accurate, and grounded in context.
 
 Tests cover:
-- Answer relevancy — did the AI answer the actual question?
-- Hallucination detection — did the AI invent facts not in the context?
+- Answer relevancy: Did the AI answer the actual question?
+- Hallucination detection: Did the AI invent facts not in the context?
 
 Real scenario: A Voice AI told a patient their copay was $25 when 
 no copay information existed in the system. Our hallucination test 
