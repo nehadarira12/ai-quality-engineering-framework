@@ -1,3 +1,4 @@
+[![AI Quality Engineering Tests](https://github.com/nehadarira12/ai-quality-engineering-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/nehadarira12/ai-quality-engineering-framework/actions/workflows/ci.yml)
 # AI Quality Engineering Framework
 
 A practical Python framework for testing AI systems across four 
