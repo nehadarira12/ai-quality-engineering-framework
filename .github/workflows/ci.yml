@@ -1,0 +1,49 @@
+name: AI Quality Engineering Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Run All Test Modules
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run data validation tests
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: pytest data_validation/ -v --tb=short
+
+      - name: Run LLM evaluation tests
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: pytest llm_evaluation/ -v --tb=short
+
+      - name: Run semantic model validation tests
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: pytest semantic_model_validation/ -v --tb=short
+
+      - name: Run agent output validation tests
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: pytest agent_output_validation/ -v --tb=short
+
+      - name: Run adversarial tests
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: pytest adversarial_testing/ -v --tb=short
