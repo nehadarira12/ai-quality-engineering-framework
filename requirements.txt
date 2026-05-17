@@ -1,0 +1,4 @@
+deepeval==4.0.2
+groq
+pytest
+pytest-asyncio
