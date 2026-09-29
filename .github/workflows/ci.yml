@@ -48,7 +48,8 @@ jobs:
         run: pytest agent_output_validation/ -v --tb=short
 
       - name: Run adversarial tests
-        continue-on-error: true
+        # No continue-on-error: a new vulnerability should fail the build.
+        # Known findings are marked xfail in the test file.
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: pytest adversarial_testing/ -v --tb=short

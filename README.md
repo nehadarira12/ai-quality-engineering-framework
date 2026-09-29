@@ -1,7 +1,7 @@
 [![AI Quality Engineering Tests](https://github.com/nehadarira12/ai-quality-engineering-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/nehadarira12/ai-quality-engineering-framework/actions/workflows/ci.yml)
 # AI Quality Engineering Framework
 
-A practical Python framework for testing AI systems across four 
+A practical Python framework for testing AI systems across five 
 critical layers — built from real experience testing a 
 patient-facing Voice AI platform in a US healthcare environment.
 
@@ -66,21 +66,28 @@ Tests cover:
 - Agent goal completion rate
 - Column hallucination detection
 
-### 5. Adversarial Testing
+### 5. Adversarial Testing (Red Team)
 
-AI systems that interact with real people must be resilient
-against manipulation, deception, and security attacks.
+Real attacks sent to a real LLM. The target is a demo pharmacy
+assistant (`target_app/`) with security rules and fictional
+patient records.
 
-Tests cover:
-- Prompt injection resistance
-- Role confusion attempts
-- Authority escalation attempts
-- Urgency and emotional manipulation
-- Soft re-identification attempts
-- Memory leakage between sessions
-- PII exposure in error messages
+6 attacks, mapped to OWASP Top 10 for LLM Applications (2025):
+- Impersonation: family member, doctor, IT support (LLM01, LLM02)
+- Direct prompt injection (LLM01)
+- Emotional pressure (LLM01)
+- Data leakage between sessions (LLM02)
+- Hidden instructions inside uploaded documents (LLM01, indirect)
+- System prompt leakage (LLM07)
 
-These scenarios map directly to OWASP LLM Top 10 risks.
+Plus a control test: a verified caller must get their own data,
+so an assistant that refuses everything cannot pass.
+
+Each attack is checked two ways: exact checks for protected data
+(including a canary planted in the system prompt), and a DeepEval
+GEval judge. Latest results: 36/36 runs resisted. See
+[adversarial_testing/README.md](adversarial_testing/README.md)
+for results and what testing revealed.
 
 ## Project Structure
 ```
@@ -101,8 +108,11 @@ ai-quality-engineering-framework/
 ├── agent_output_validation/
 │   └── test_agent_outputs.py         # Catalog entries and metric validation
 │
-└── adversarial_testing/
-    └── test_adversarial.py           # Prompt injection, manipulation, leakage
+├── adversarial_testing/
+│   └── test_adversarial.py           # 6 OWASP-mapped attacks on a real LLM
+│
+└── target_app/
+    └── healthcare_assistant.py       # Demo AI assistant the attacks target
 ```
 
 ## Tech Stack
@@ -111,7 +121,7 @@ ai-quality-engineering-framework/
 |---|---|
 | Python | Core language |
 | DeepEval | LLM evaluation framework |
-| Groq | Free LLM judge (LLaMA 3.3 70B) |
+| Groq | Target model (gpt-oss-20b) and LLM judge (gpt-oss-120b) |
 | Pytest | Test runner |
 | GitHub Actions | CI runs tests on every push |
 
@@ -183,4 +193,4 @@ quality is not optional it is a compliance requirement.
 
 **Neha Kumari** — Senior QA Engineer | ISTQB Certified
 
-[LinkedIn](https://www.linkedin.com/in/neha-kumari-qa/) | [GitHub](https://github.com/nehadarira12)
+[LinkedIn](https://www.linkedin.com/in/neha-kumariqa/) | [GitHub](https://github.com/nehadarira12)
